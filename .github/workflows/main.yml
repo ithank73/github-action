@@ -34,4 +34,4 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd "/home/${{ secrets.SSH_NAME }}/github_action/github-action"
-            ./server_deploy.sh
+            ./server-deploy.sh
