@@ -17,14 +17,14 @@ jobs:
           node-version: '12.x'
       - run: npm install
       - run: npm run production
-      - name: Commit built assets
-        run: |
-          git config --local user.email "kaelch@peoplenjob.com"
-          git config --local user.name "KIM CHAN HO"
-          git checkout -B deploy
-          git add -f public/
-          git commit -m "Build front-end assets"
-          git push -f origin deploy
+#      - name: Commit built assets
+#        run: |
+#          git config --local user.email "kaelch@peoplenjob.com"
+#          git config --local user.name "KIM CHAN HO"
+#          git checkout -B deploy
+#          git add -f public/
+#          git commit -m "Build front-end assets"
+#          git push -f origin deploy
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         with:
