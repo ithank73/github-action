@@ -30,6 +30,6 @@ jobs:
           script: |
             cd ~/master
             closed_branch="${{ github.event.pull_request.head.ref }}"
-            git fetch origin "${closed_branch}"
-            git reset --hard "origin/${closed_branch}"
+            git fetch origin master
+            git reset --hard "origin/master"
             ./soft-update.sh
