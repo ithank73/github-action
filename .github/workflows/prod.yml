@@ -1,11 +1,13 @@
 name: CD
 on:
-  pull_request_review:
-    types:
-      - submitted
+  pull_request:
+    branches:
+      - '*'
+    types: [closed]
   workflow_dispatch:
 jobs:
   deploy:
+    if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
