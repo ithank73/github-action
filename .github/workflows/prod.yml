@@ -1,8 +1,6 @@
 name: CD
 on:
   pull_request_review:
-    branches:
-      - '*'
     types:
       - submitted
   workflow_dispatch:
