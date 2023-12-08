@@ -26,4 +26,3 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ${{ secrets.APP_PATH }}
-#            ../soft-update.sh
