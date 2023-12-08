@@ -25,5 +25,8 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
+            echo {{ GITHUB_HEAD_REF }}
+            echo {{ GITHUB_BASE_REF }}
+            echo {{ GITHUB_REF_NAME }}
             cd ${{ secrets.APP_PATH }}
             ../server-deploy.sh
