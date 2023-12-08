@@ -32,4 +32,4 @@ jobs:
             closed_branch="${{ github.event.pull_request.head.ref }}"
             git fetch origin "${closed_branch}"
             git reset --hard "origin/${closed_branch}"
-            ../source-ci.sh
+            ../soft-update.sh
