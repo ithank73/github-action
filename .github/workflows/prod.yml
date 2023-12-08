@@ -26,8 +26,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ${{ secrets.APP_PATH }}
-
-
-            git fetch origin ${{ github.ref_name }}
-            git reset --hard origin/${{ github.ref_name }}
+            closed_branch="${{ github.event.pull_request.head.ref }}"
+            git fetch origin "${closed_branch}"
+            git reset --hard "origin/${closed_branch}"
             ../server-deploy.sh
