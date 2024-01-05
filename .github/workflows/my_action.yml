@@ -7,6 +7,11 @@ on:
         description: 'Log level'
         required: true
         default: 'warning'
+        options:
+          - 'AZURE-EUW-XXXXX'
+          - 'AZURE-FRC-XXXXX'
+          - 'AZURE-USE-XXXXX'
+          - 'AZURE-FRC-XXXXX'
       tags:
         description: 'Test scenario tags'
 jobs:
