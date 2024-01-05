@@ -1,8 +1,8 @@
 name: PeopleNJob CD
 
 on:
-  push:
   workflow_dispatch: # Add manual trigger
+  push:
     branches:
       - master
 jobs:
