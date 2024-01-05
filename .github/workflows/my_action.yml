@@ -1,11 +1,12 @@
 name: PeopleNJob CD
 
 on:
-  workflow_dispatch: # Add manual trigger
-
+  workflow_dispatch:
+  push:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
