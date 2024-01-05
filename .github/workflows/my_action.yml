@@ -9,3 +9,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm install
+      - name: Deploy to production
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_SERVER }}
+          username: ${{ secrets.SSH_NAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "Current user: $(whoami)"
+            cd ~/master
+            touch test
