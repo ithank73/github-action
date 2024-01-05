@@ -1,10 +1,8 @@
 name: PeopleNJob CD
 
 on:
-  push:
   workflow_dispatch: # Add manual trigger
-    branches:
-      - master
+  push:
 jobs:
   deploy:
     runs-on: ubuntu-latest
