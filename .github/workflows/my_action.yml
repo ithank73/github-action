@@ -1,23 +1,16 @@
 name: PeopleNJob CD
+
 on:
   push:
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-        options:
-          - 'AZURE-EUW-XXXXX'
-          - 'AZURE-FRC-XXXXX'
-          - 'AZURE-USE-XXXXX'
-          - 'AZURE-FRC-XXXXX'
-      tags:
-        description: 'Test scenario tags'
+  workflow_dispatch: # Add manual trigger
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         env:
@@ -31,7 +24,17 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           envs: COMPOSER,NPM_INSTALL,NPM_BUILD
           script: |
-            echo "Current user: $(whoami)"
             cd ~/master
             ./test.sh
 
+  manualJob:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Add more steps as needed for your manual job
+      - name: Run some commands
+        run: |
+          echo "This job runs only when triggered manually."
