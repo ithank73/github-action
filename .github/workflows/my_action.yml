@@ -7,8 +7,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: npm install
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         with:
@@ -19,4 +17,4 @@ jobs:
           script: |
             echo "Current user: $(whoami)"
             cd ~/master
-            touch test
+            touch my_action_init
