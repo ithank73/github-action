@@ -1,13 +1,13 @@
 name: CD
 on:
-    push:
-      branches:
-        - *
+  push:
+    branches:
+      - *
 #    branches:
 #      - '*'
 #    types:
 #      - closed
-    workflow_dispatch:
+  workflow_dispatch:
 jobs:
   deploy_prod:
     if: ${{ github.event.pull_request.merged }}
