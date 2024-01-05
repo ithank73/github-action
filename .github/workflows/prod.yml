@@ -1,21 +1,29 @@
 name: CD
+
 on:
   push:
     branches:
       - production
+
 jobs:
   deploy_prod:
     runs-on: ubuntu-latest
+
     steps:
-#      - uses: actions/checkout@v2
-#        with:
-#          token: ${{ secrets.PUSH_TOKEN }}
-#      - name: Set up Node
-#        uses: actions/setup-node@v1
-#        with:
-#          node-version: '12.x'
-#      - run: npm install
-#      - run: npm run production
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build for production
+        run: npm run production
+
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         with:
@@ -26,8 +34,6 @@ jobs:
           script: |
             echo "Current user: $(whoami)"
             cd ~/master
-#            closed_branch="${{ github.event.pull_request.head.ref }}"
-#            git fetch origin master
-#            git reset --hard "origin/master"
-#            ../soft-update.sh
-            touch test
+            git fetch origin master
+            git reset --hard "origin/master"
+            # Run your custom update script or other deployment commands here
