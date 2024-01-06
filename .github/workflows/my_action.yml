@@ -14,9 +14,9 @@ jobs:
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         env:
-          COMPOSER: "true"
+          COMPOSER: ${{ github.event.label.name == 'composer install' }}
           NPM_INSTALL: "false"
-          NPM_BUILD: "true"
+          NPM_BUILD: ${{ github.event.label }}
         with:
           host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_NAME }}
