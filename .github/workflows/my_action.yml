@@ -19,18 +19,9 @@ on:
         type: boolean
         default: false
         description: DB_MIGRATION
-#      choices:
-#        type: choice
-#        description: Make a choice
-#        options:
-#          - COMPOSER_INSTALL
-#          - NPM_INSTALL
-#          - NPM_BUILD
-#          - DB_MIGRATION
   pull_request:
     types:
       - closed
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
