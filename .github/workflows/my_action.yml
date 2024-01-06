@@ -61,10 +61,10 @@ jobs:
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         env:
-          COMPOSER_INSTALL: ${{ github.event.inputs.COMPOSER_INSTALL && 'false' || 'true' }}
-          NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL && 'false' || 'true' }}
-          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD && 'false' || 'true' }}
-          DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION && 'false' || 'true' }}
+          COMPOSER_INSTALL: ${{ github.event.inputs.COMPOSER_INSTALL }}
+          NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
+          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
+          DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
         with:
           host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_NAME }}
