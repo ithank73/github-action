@@ -2,7 +2,10 @@ name: PeopleNJob CD
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
+    types:
+      - closed
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
