@@ -28,7 +28,7 @@ jobs:
           envs: COMPOSER,NPM_INSTALL,NPM_BUILD
           script: |
             cd ${{ secrets.MASTER_PATH }}
-            ./github/actions/deploy.sh
+            ./.github/actions/deploy.sh
 
   manualJob:
     runs-on: ubuntu-latest
