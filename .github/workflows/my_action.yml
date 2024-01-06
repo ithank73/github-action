@@ -5,19 +5,19 @@ on:
     inputs:
       NPM_INSTALL:
         type: boolean
-        default: true
+        default: false
         description: NPM_INSTALL
       NPM_BUILD:
         type: boolean
-        default: true
+        default: false
         description: NPM_BUILD
       COMPOSER_INSTALL:
         type: boolean
-        default: true
+        default: false
         description: COMPOSER_INSTALL
       DB_MIGRATION:
         type: boolean
-        default: true
+        default: false
         description: DB_MIGRATION
 #      choices:
 #        type: choice
@@ -61,10 +61,10 @@ jobs:
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         env:
-          COMPOSER_INSTALL: ${{ github.event.inputs.COMPOSER_INSTALL }}
-          NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
-          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
-          DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
+          COMPOSER_INSTALL: ${{ github.event.inputs.COMPOSER_INSTALL && 'false' || 'true' }}
+          NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL && 'false' || 'true' }}
+          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD && 'false' || 'true' }}
+          DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION && 'false' || 'true' }}
         with:
           host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_NAME }}
