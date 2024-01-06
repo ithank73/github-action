@@ -26,6 +26,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 #    if: github.event_name == 'push'
+
     if: ${{ github.event.pull_request.merged }}
     steps:
       - name: Checkout source code.   # 레포지토리 체크아웃
