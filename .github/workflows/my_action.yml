@@ -13,9 +13,10 @@ on:
         type: choice
         description: Make a choice
         options:
-          - foo
-          - bar
-          - baz
+          - COMPOSER_INSTALL
+          - NPM_INSTALL
+          - NPM_BUILD
+          - DB_MIGRATION
   pull_request:
     types:
       - closed
@@ -53,4 +54,4 @@ jobs:
 #        uses: actions/checkout@v2
       - name: Run some commands
         run: |
-          echo "This job runs only when triggered manually."
+          echo "Choice: ${{ github.event.inputs.choice }}"
