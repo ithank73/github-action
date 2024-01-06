@@ -28,8 +28,8 @@ jobs:
           envs: COMPOSER,NPM_INSTALL,NPM_BUILD
           script: |
             cd ${{ secrets.MASTER_PATH }}
-            ../soft-update.sh
-
+#            ../soft-update.sh
+            ../source-ci.sh
   manualJob:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
