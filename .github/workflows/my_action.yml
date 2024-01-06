@@ -15,7 +15,7 @@ jobs:
         uses: appleboy/ssh-action@master
         env:
           COMPOSER: ${{ github.event.label.name == 'composer install' }}
-          NPM_INSTALL: "false"
+          NPM_INSTALL: ${{ github.event.label.name == 'npm install' }}
           NPM_BUILD: ${{ github.event.label }}
         with:
           host: ${{ secrets.SSH_SERVER }}
