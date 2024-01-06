@@ -53,22 +53,22 @@ jobs:
           source: "public"
           target: "/home/people_l7/master/public/dist"
           strip_components: 1
-      - name: Deploy to production
-        uses: appleboy/ssh-action@master
-        env:
-          COMPOSER_INSTALL: ${{ contains(github.event.pull_request.labels.*.name, 'composer install') && 'true' || 'false' }}
-          NPM_INSTALL: ${{ contains(github.event.pull_request.labels.*.name, 'npm install') && 'true' || 'false' }}
-          NPM_BUILD: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') && 'true' || 'false' }}
-          DB_MIGRATION: ${{ contains(github.event.pull_request.labels.*.name, 'db migration') && 'true' || 'false' }}
-        with:
-          host: ${{ secrets.SSH_SERVER }}
-          username: ${{ secrets.SSH_NAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
-          envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION
-          script: |
-            cd ${{ secrets.MASTER_PATH }}
-            ../source-ci.sh
+#      - name: Deploy to production
+#        uses: appleboy/ssh-action@master
+#        env:
+#          COMPOSER_INSTALL: ${{ contains(github.event.pull_request.labels.*.name, 'composer install') && 'true' || 'false' }}
+#          NPM_INSTALL: ${{ contains(github.event.pull_request.labels.*.name, 'npm install') && 'true' || 'false' }}
+#          NPM_BUILD: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') && 'true' || 'false' }}
+#          DB_MIGRATION: ${{ contains(github.event.pull_request.labels.*.name, 'db migration') && 'true' || 'false' }}
+#        with:
+#          host: ${{ secrets.SSH_SERVER }}
+#          username: ${{ secrets.SSH_NAME }}
+#          password: ${{ secrets.SSH_PASSWORD }}
+#          port: ${{ secrets.SSH_PORT }}
+#          envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION
+#          script: |
+#            cd ${{ secrets.MASTER_PATH }}
+#            ../source-ci.sh
 
   ci:
     runs-on: ubuntu-latest
