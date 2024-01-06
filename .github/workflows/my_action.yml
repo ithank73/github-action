@@ -5,19 +5,19 @@ on:
     inputs:
       NPM_INSTALL:
         type: boolean
-        default: false
+        default: true
         description: NPM_INSTALL
       NPM_BUILD:
         type: boolean
-        default: false
+        default: true
         description: NPM_BUILD
       COMPOSER_INSTALL:
         type: boolean
-        default: false
+        default: true
         description: COMPOSER_INSTALL
       DB_MIGRATION:
         type: boolean
-        default: false
+        default: true
         description: DB_MIGRATION
 #      choices:
 #        type: choice
