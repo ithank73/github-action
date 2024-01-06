@@ -27,7 +27,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           envs: COMPOSER,NPM_INSTALL,NPM_BUILD
           script: |
-            cd ~/master
+            cd ${{ secrets.MASTER_PATH }}
             ./test.sh
 
   manualJob:
