@@ -28,7 +28,7 @@ jobs:
           envs: COMPOSER,NPM_INSTALL,NPM_BUILD
           script: |
             cd ${{ secrets.MASTER_PATH }}
-            ./test.sh
+            ../soft-update.sh
 
   manualJob:
     runs-on: ubuntu-latest
