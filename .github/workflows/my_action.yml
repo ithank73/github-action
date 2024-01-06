@@ -28,6 +28,7 @@ jobs:
           envs: COMPOSER,NPM_INSTALL,NPM_BUILD
           script: |
             cd ${{ secrets.MASTER_PATH }}
+            echo pwd
             ../source-ci.sh
 
   manualJob:
