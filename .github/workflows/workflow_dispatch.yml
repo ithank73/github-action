@@ -31,6 +31,7 @@ jobs:
           echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
           BRANCH=${GITHUB_REF#refs/heads/}
           echo "${BRANCH}"
+          echo "${GITHUB_REF#refs/heads/}"
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         env:
