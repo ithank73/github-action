@@ -32,9 +32,8 @@ jobs:
           NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
           #          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
           DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
-          BRANCH_NAME: master
+          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
 #          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
-
         with:
           host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_NAME }}
