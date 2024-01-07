@@ -51,7 +51,7 @@ jobs:
           envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION
           script: |
             cd ${{ secrets.MASTER_PATH }}
-            echo "Current branch on server is: ${{ steps.extract_branch.outputs.BRANCH_NAME }}"
+            echo "Current branch on server is: ${GITHUB_REF#refs/heads/}"
             ../dev-deploy.sh
 
 #            echo ${GITHUB_REF#refs/heads/}
