@@ -25,6 +25,9 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         env:
@@ -32,7 +35,7 @@ jobs:
           NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
           #          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
           DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
-          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
+          BRANCH_NAME: ${{ steps.extract_branch.outputs.BRANCH_NAME }}
 #          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
         with:
           host: ${{ secrets.SSH_SERVER }}
