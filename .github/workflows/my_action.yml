@@ -25,21 +25,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
+
     steps:
       - name: Checkout source code.   # 레포지토리 체크아웃
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
         uses: actions/checkout@master
         with:
           token: ${{ secrets.PUSH_TOKEN }}
       - name: Set up Node
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
       - name: Install Dependencies    # 의존 파일 설치
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
         run: npm install
       - name: Install Dependencies    # 빌드
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
         run: npm run production
       - name: Transfer Deploy Script use SCP
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_SERVER }}
