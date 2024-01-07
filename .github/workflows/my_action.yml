@@ -79,21 +79,27 @@ jobs:
             ../source-ci.sh
   work_flow_build:
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name == 'workflow_dispatch') && (github.event.inputs.NPM_BUILD) }}
+    if: github.event_name == 'workflow_dispatch'
+#    if: ${{ (github.event_name == 'workflow_dispatch') && (github.event.inputs.NPM_BUILD) }}
     steps:
       - name: Checkout source code.   # 레포지토리 체크아웃
+        if: github.event.inputs.NPM_BUILD
         uses: actions/checkout@master
         with:
           token: ${{ secrets.PUSH_TOKEN }}
       - name: Set up Node
+        if: github.event.inputs.NPM_BUILD
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
       - name: Install Dependencies    # 의존 파일 설치
+        if: github.event.inputs.NPM_BUILD
         run: npm install
       - name: Install Dependencies    # 빌드
+        if: github.event.inputs.NPM_BUILD
         run: npm run production
       - name: Transfer Deploy Script use SCP
+        if: github.event.inputs.NPM_BUILD
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_SERVER }}
@@ -104,7 +110,8 @@ jobs:
           target: "/home/people_l7/master/public/dist"
 #          source: "public/dist"
 #          target: ${{ secrets.MASTER_PATH }}/public/dist
-  ci:
+  workflow_ci:
+    needs: work_flow_build
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
     steps:
