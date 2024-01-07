@@ -22,6 +22,7 @@ on:
         description: DB_MIGRATION
 jobs:
   workflow_ci:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to production
@@ -31,6 +32,7 @@ jobs:
           NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
           #          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
           DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
+          BRANCH_NAME: ${{ github.ref }}
         with:
           host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_NAME }}
@@ -39,5 +41,7 @@ jobs:
           envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION
           script: |
             cd ${{ secrets.MASTER_PATH }}
-            echo ${GITHUB_REF#refs/heads/}
-#            ../ci.sh
+            echo "Current branch is: ${BRANCH_NAME#refs/heads/}"
+            ../dev-deploy.sh
+#            echo ${GITHUB_REF#refs/heads/}
+
