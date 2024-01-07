@@ -25,11 +25,6 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
-      - name: Extract region and env from branch
-        run: |
-          BRANCH=${GITHUB_REF#refs/heads/}
-          echo "find branch"
-          echo "${BRANCH}"
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         env:
@@ -37,8 +32,7 @@ jobs:
           NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
           #          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
           DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
-          BRANCH_NAME: ${{ github.ref }}
-          BRANCH_NAME2: ${GITHUB_REF#refs/heads/}
+          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
         with:
           host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_NAME }}
