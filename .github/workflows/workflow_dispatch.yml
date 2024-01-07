@@ -20,10 +20,10 @@ on:
         default: false
         description: DB_MIGRATION
 jobs:
-  work_flow_build:
-    runs-on: ubuntu-latest
+#  work_flow_build:
+#    runs-on: ubuntu-latest
     #    if: ${{ (github.event_name == 'workflow_dispatch') && (github.event.inputs.NPM_BUILD) }}
-    steps:
+#    steps:
   #      - name: Checkout source code.   # 레포지토리 체크아웃
   #        if: github.event.inputs.NPM_BUILD
   #        uses: actions/checkout@master
@@ -51,7 +51,7 @@ jobs:
   #          source: "public"
   #          target: "/home/people_l7/master/public/dist"
   workflow_ci:
-    needs: work_flow_build
+#    needs: work_flow_build
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to production
