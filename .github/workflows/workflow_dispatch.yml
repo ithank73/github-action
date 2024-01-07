@@ -32,7 +32,7 @@ jobs:
           NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
           #          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
           DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
-          BRANCH_NAME: ${{ GITHUB_REF#refs/heads/ }}
+          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
 #          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
         with:
           host: ${{ secrets.SSH_SERVER }}
@@ -43,6 +43,7 @@ jobs:
           script: |
             cd ${{ secrets.MASTER_PATH }}
             ../dev-deploy.sh
-            echo "Current branch is: ${BRANCH_NAME#refs/heads/}"
+            echo "Current branch is: $GITHUB_REF"
+            echo "Current branch is: ${GITHUB_REF}"
 #            echo ${GITHUB_REF#refs/heads/}
 
