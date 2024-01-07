@@ -28,6 +28,7 @@ jobs:
       - name: Extract region and env from branch
         run: |
           BRANCH=${GITHUB_REF#refs/heads/}
+          echo "find branch"
           echo "${BRANCH}"
       - name: Deploy to production
         uses: appleboy/ssh-action@master
