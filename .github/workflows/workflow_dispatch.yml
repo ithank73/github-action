@@ -35,7 +35,8 @@ jobs:
           NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
           #          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
           DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
-          BRANCH_NAME: ${{ steps.extract_branch.outputs.BRANCH_NAME }}
+          BRANCH_NAME: ${{ github.ref_name }}
+#          BRANCH_NAME: ${{ steps.extract_branch.outputs.BRANCH_NAME }}
 #          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
         with:
           host: ${{ secrets.SSH_SERVER }}
@@ -45,7 +46,7 @@ jobs:
           envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION
           script: |
             cd ${{ secrets.MASTER_PATH }}
-            echo "Current branch on server is: $BRANCH_NAME"
+            echo "Current branch on server is: ${{ steps.extract_branch.outputs.BRANCH_NAME }}"
             ../dev-deploy.sh
 
 #            echo ${GITHUB_REF#refs/heads/}
