@@ -52,6 +52,7 @@ jobs:
     runs-on: ubuntu-latest
 #    if: github.event_name == 'push'
     if: ${{ github.event.pull_request.merged }}
+    needs: build
     steps:
       - name: Deploy to production
         uses: appleboy/ssh-action@master
