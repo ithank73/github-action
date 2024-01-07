@@ -1,133 +1,133 @@
-name: PeopleNJob CD
-
-on:
-  workflow_dispatch:
-    inputs:
-      NPM_INSTALL:
-        type: boolean
-        default: false
-        description: NPM_INSTALL
-      NPM_BUILD:
-        type: boolean
-        default: false
-        description: NPM_BUILD
-      COMPOSER_INSTALL:
-        type: boolean
-        default: false
-        description: COMPOSER_INSTALL
-      DB_MIGRATION:
-        type: boolean
-        default: false
-        description: DB_MIGRATION
-  pull_request:
-    types:
-      - closed
-jobs:
-  build:
-    if: github.event_name != 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code.   # 레포지토리 체크아웃
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
-        uses: actions/checkout@master
-        with:
-          token: ${{ secrets.PUSH_TOKEN }}
-      - name: Set up Node
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - name: Install Dependencies    # 의존 파일 설치
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
-        run: npm install
-      - name: Install Dependencies    # 빌드
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
-        run: npm run production
-      - name: Transfer Deploy Script use SCP # 빌드파일 서버로 전송
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_SERVER }}
-          username: ${{ secrets.SSH_NAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
-          source: "public"
-          target: "/home/people_l7/master/public/dist"
-#          source: "public/dist"
-#          target: ${{ secrets.MASTER_PATH }}/public/dist
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-#    if: github.event_name == 'push'
-    if: ${{ github.event.pull_request.merged }}
-    steps:
-      - name: Deploy to production
-        uses: appleboy/ssh-action@master
-        env:
-          COMPOSER_INSTALL: ${{ contains(github.event.pull_request.labels.*.name, 'composer install') && 'true' || 'false' }}
-          NPM_INSTALL: ${{ contains(github.event.pull_request.labels.*.name, 'npm install') && 'true' || 'false' }}
-#          NPM_BUILD: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') && 'true' || 'false' }}
-          DB_MIGRATION: ${{ contains(github.event.pull_request.labels.*.name, 'db migration') && 'true' || 'false' }}
-        with:
-          host: ${{ secrets.SSH_SERVER }}
-          username: ${{ secrets.SSH_NAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
-          envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION
-          script: |
-            cd ${{ secrets.MASTER_PATH }}
-            ../source-ci.sh
-  work_flow_build:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
-#    if: ${{ (github.event_name == 'workflow_dispatch') && (github.event.inputs.NPM_BUILD) }}
-    steps:
-      - name: Checkout source code.   # 레포지토리 체크아웃
-        if: github.event.inputs.NPM_BUILD
-        uses: actions/checkout@master
-        with:
-          token: ${{ secrets.PUSH_TOKEN }}
-      - name: Set up Node
-        if: github.event.inputs.NPM_BUILD
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - name: Install Dependencies    # 의존 파일 설치
-        if: github.event.inputs.NPM_BUILD
-        run: npm install
-      - name: Install Dependencies    # 빌드
-        if: github.event.inputs.NPM_BUILD
-        run: npm run production
-      - name: Transfer Deploy Script use SCP
-        if: github.event.inputs.NPM_BUILD
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_SERVER }}
-          username: ${{ secrets.SSH_NAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
-          source: "public"
-          target: "/home/people_l7/master/public/dist"
-#          source: "public/dist"
-#          target: ${{ secrets.MASTER_PATH }}/public/dist
-  workflow_ci:
-    needs: work_flow_build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
-    steps:
-      - name: Deploy to production
-        uses: appleboy/ssh-action@master
-        env:
-          COMPOSER_INSTALL: ${{ github.event.inputs.COMPOSER_INSTALL }}
-          NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
-#          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
-          DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
-        with:
-          host: ${{ secrets.SSH_SERVER }}
-          username: ${{ secrets.SSH_NAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
-          envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION
-          script: |
-            cd ${{ secrets.MASTER_PATH }}
-            ../ci.sh
+#name: PeopleNJob CD
+#
+#on:
+#  workflow_dispatch:
+#    inputs:
+#      NPM_INSTALL:
+#        type: boolean
+#        default: false
+#        description: NPM_INSTALL
+#      NPM_BUILD:
+#        type: boolean
+#        default: false
+#        description: NPM_BUILD
+#      COMPOSER_INSTALL:
+#        type: boolean
+#        default: false
+#        description: COMPOSER_INSTALL
+#      DB_MIGRATION:
+#        type: boolean
+#        default: false
+#        description: DB_MIGRATION
+#  pull_request:
+#    types:
+#      - closed
+#jobs:
+#  build:
+#    if: github.event_name != 'workflow_dispatch'
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout source code.   # 레포지토리 체크아웃
+#        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
+#        uses: actions/checkout@master
+#        with:
+#          token: ${{ secrets.PUSH_TOKEN }}
+#      - name: Set up Node
+#        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: '12.x'
+#      - name: Install Dependencies    # 의존 파일 설치
+#        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
+#        run: npm install
+#      - name: Install Dependencies    # 빌드
+#        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
+#        run: npm run production
+#      - name: Transfer Deploy Script use SCP # 빌드파일 서버로 전송
+#        if: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') }}
+#        uses: appleboy/scp-action@master
+#        with:
+#          host: ${{ secrets.SSH_SERVER }}
+#          username: ${{ secrets.SSH_NAME }}
+#          password: ${{ secrets.SSH_PASSWORD }}
+#          port: ${{ secrets.SSH_PORT }}
+#          source: "public"
+#          target: "/home/people_l7/master/public/dist"
+##          source: "public/dist"
+##          target: ${{ secrets.MASTER_PATH }}/public/dist
+#  deploy:
+#    needs: build
+#    runs-on: ubuntu-latest
+##    if: github.event_name == 'push'
+#    if: ${{ github.event.pull_request.merged }}
+#    steps:
+#      - name: Deploy to production
+#        uses: appleboy/ssh-action@master
+#        env:
+#          COMPOSER_INSTALL: ${{ contains(github.event.pull_request.labels.*.name, 'composer install') && 'true' || 'false' }}
+#          NPM_INSTALL: ${{ contains(github.event.pull_request.labels.*.name, 'npm install') && 'true' || 'false' }}
+##          NPM_BUILD: ${{ contains(github.event.pull_request.labels.*.name, 'npm build') && 'true' || 'false' }}
+#          DB_MIGRATION: ${{ contains(github.event.pull_request.labels.*.name, 'db migration') && 'true' || 'false' }}
+#        with:
+#          host: ${{ secrets.SSH_SERVER }}
+#          username: ${{ secrets.SSH_NAME }}
+#          password: ${{ secrets.SSH_PASSWORD }}
+#          port: ${{ secrets.SSH_PORT }}
+#          envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION
+#          script: |
+#            cd ${{ secrets.MASTER_PATH }}
+#            ../source-ci.sh
+#  work_flow_build:
+#    runs-on: ubuntu-latest
+#    if: github.event_name == 'workflow_dispatch'
+##    if: ${{ (github.event_name == 'workflow_dispatch') && (github.event.inputs.NPM_BUILD) }}
+#    steps:
+#      - name: Checkout source code.   # 레포지토리 체크아웃
+#        if: github.event.inputs.NPM_BUILD
+#        uses: actions/checkout@master
+#        with:
+#          token: ${{ secrets.PUSH_TOKEN }}
+#      - name: Set up Node
+#        if: github.event.inputs.NPM_BUILD
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: '12.x'
+#      - name: Install Dependencies    # 의존 파일 설치
+#        if: github.event.inputs.NPM_BUILD
+#        run: npm install
+#      - name: Install Dependencies    # 빌드
+#        if: github.event.inputs.NPM_BUILD
+#        run: npm run production
+#      - name: Transfer Deploy Script use SCP
+#        if: github.event.inputs.NPM_BUILD
+#        uses: appleboy/scp-action@master
+#        with:
+#          host: ${{ secrets.SSH_SERVER }}
+#          username: ${{ secrets.SSH_NAME }}
+#          password: ${{ secrets.SSH_PASSWORD }}
+#          port: ${{ secrets.SSH_PORT }}
+#          source: "public"
+#          target: "/home/people_l7/master/public/dist"
+##          source: "public/dist"
+##          target: ${{ secrets.MASTER_PATH }}/public/dist
+#  workflow_ci:
+#    needs: work_flow_build
+#    runs-on: ubuntu-latest
+#    if: github.event_name == 'workflow_dispatch'
+#    steps:
+#      - name: Deploy to production
+#        uses: appleboy/ssh-action@master
+#        env:
+#          COMPOSER_INSTALL: ${{ github.event.inputs.COMPOSER_INSTALL }}
+#          NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
+##          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
+#          DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
+#        with:
+#          host: ${{ secrets.SSH_SERVER }}
+#          username: ${{ secrets.SSH_NAME }}
+#          password: ${{ secrets.SSH_PASSWORD }}
+#          port: ${{ secrets.SSH_PORT }}
+#          envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION
+#          script: |
+#            cd ${{ secrets.MASTER_PATH }}
+#            ../ci.sh
