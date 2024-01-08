@@ -25,40 +25,39 @@ on:
         required: false
         description: DB_MIGRATION
 jobs:
-#  ci:
-##    if: ${{ github.event.inputs.NPM_BUILD && github.event_name == 'workflow_dispatch' }}
-#    if: ${{ github.event.inputs.NPM_BUILD }}
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout source code.   # 레포지토리 체크아웃
-#        if: ${{ github.event.inputs.NPM_BUILD }}
-#        uses: actions/checkout@master
-#        with:
-#          token: ${{ secrets.GIT_TOKEN }}
-#      - name: Set up Node
-#        if: ${{ github.event.inputs.NPM_BUILD }}
-#        uses: actions/setup-node@v1
-#        with:
-#          node-version: '12.x'
-#      - name: Install Dependencies    # 의존 파일 설치
-#        if: ${{ github.event.inputs.NPM_BUILD }}
-#        run: npm install
-#      - name: Install Dependencies    # 빌드
-#        if: ${{ github.event.inputs.NPM_BUILD }}
-#        run: npm run production
-#      - name: Transfer Deploy Script use SCP # 빌드파일 서버로 전송
-#        if: ${{ github.event.inputs.NPM_BUILD }}
-#        uses: appleboy/scp-action@master
-#        with:
-#          host: ${{ secrets.DEV_HOST }}
-#          username: ${{ secrets.DEV_SSH_NAME }}
-#          password: ${{ secrets.DEV_SSH_PASSWORD }}
-#          port: ${{ secrets.DEV_PORT }}
-#          source: "public"
-#          target: ${{ secrets.DEV_MASTER_PATH }}/public/dist
-#          strip_components: 1
+  ci:
+    if: ${{ !!github.event.inputs.NPM_BUILD && github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code.   # 레포지토리 체크아웃
+        if: ${{ github.event.inputs.NPM_BUILD }}
+        uses: actions/checkout@master
+        with:
+          token: ${{ secrets.GIT_TOKEN }}
+      - name: Set up Node
+        if: ${{ github.event.inputs.NPM_BUILD }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install Dependencies    # 의존 파일 설치
+        if: ${{ github.event.inputs.NPM_BUILD }}
+        run: npm install
+      - name: Install Dependencies    # 빌드
+        if: ${{ github.event.inputs.NPM_BUILD }}
+        run: npm run production
+      - name: Transfer Deploy Script use SCP # 빌드파일 서버로 전송
+        if: ${{ github.event.inputs.NPM_BUILD }}
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DEV_HOST }}
+          username: ${{ secrets.DEV_SSH_NAME }}
+          password: ${{ secrets.DEV_SSH_PASSWORD }}
+          port: ${{ secrets.DEV_PORT }}
+          source: "public"
+          target: ${{ secrets.DEV_MASTER_PATH }}/public/dist
+          strip_components: 1
   deploy:
-#    needs: ci
+    needs: ci
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
