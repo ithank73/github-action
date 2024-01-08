@@ -22,8 +22,7 @@ on:
         description: DB_MIGRATION
 jobs:
   ci:
-#    if: ${{ github.event.inputs.NPM_BUILD && github.event_name == 'workflow_dispatch' }}
-    if: ${{ github.event.inputs.NPM_BUILD }}
+    if: ${{ github.event.inputs.NPM_BUILD && github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code.   # 레포지토리 체크아웃
@@ -78,6 +77,6 @@ jobs:
           envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION,BRANCH_NAME
           script: |
             cd ${{ secrets.DEV_MASTER_PATH }}
-            echo "Current branch on server is: ${{ env.BRANCH_NAME }}"
+            echo "${{ github.event.inputs.NPM_BUILD && github.event_name == 'workflow_dispatch' }}"
             ../dev-deploy.sh
 
