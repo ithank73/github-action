@@ -42,10 +42,12 @@ jobs:
           script: |
             cd ${{ secrets.DEV_MASTER_PATH }}
             if [ -n "$(git status --porcelain)" ]; then
-            echo "there are changes";
+            echo "IS_GIT_DIFF=$(echo change)" >> $GITHUB_ENV
             else
-            echo "no changes";
+            echo "IS_GIT_DIFF=$(echo no change)" >> $GITHUB_ENV
             fi
+
+            echo ${ IS_GIT_DIFF }
   ci:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
