@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: run echo test
+        if: ${{ github.event.inputs.NPM_BUILD == true }}
         run: |
           echo ${{ github.event.inputs.NPM_BUILD }}
           echo ${{ github.event_name == 'workflow_dispatch' }}
