@@ -33,9 +33,9 @@ jobs:
         if: ${{ github.event.inputs.NPM_BUILD }}
         run: |
           echo ${{ github.event.inputs.NPM_BUILD }}
-          echo ${{ github.event.inputs.NPM_BUILD == 'true' }}
-          echo ${{ github.event.inputs.NPM_BUILD == true }}
-          echo ${{ github.event.inputs.NPM_BUILD == 1 }}
+          echo ${{ github.event.inputs.NPM_BUILD == 'false' }}
+          echo ${{ github.event.inputs.NPM_BUILD == false }}
+          echo ${{ github.event.inputs.NPM_BUILD == 0 }}
           echo ${{ github.event_name == 'workflow_dispatch' }}
       - name: Checkout source code.   # 레포지토리 체크아웃
         if: ${{ github.event.inputs.NPM_BUILD }}
