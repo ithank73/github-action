@@ -3,10 +3,11 @@ name: Conditional Workflow
 on:
   workflow_dispatch:
     inputs:
-      TEST:
+      x:
+        type: boolean
         description: 'Run echo "true" if checked'
         required: true
-        default: 'false'
+        default: false
 
 jobs:
   my-job:
@@ -17,8 +18,5 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run echo based on input
-        if: ${{ github.event.inputs.TEST == 'true' }}
+        if: ${{inputs.x}}
         run: echo "true"
-      - name: Run echo based on input
-        if: ${{ github.event.inputs.TEST != 'true' }}
-        run: echo "not true"
