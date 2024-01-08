@@ -40,6 +40,7 @@ jobs:
           port: ${{ secrets.DEV_PORT }}
           envs: COMPOSER_INSTALL,NPM_INSTALL,DB_MIGRATION,BRANCH_NAME
           script: |
+            cd ${{ secrets.DEV_MASTER_PATH }}
             if [ -n "$(git status --porcelain)" ]; then
             echo "there are changes";
             else
