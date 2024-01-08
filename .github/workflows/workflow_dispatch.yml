@@ -46,12 +46,13 @@ jobs:
             else
             echo "IS_GIT_DIFF=$(echo no change)" >> $GITHUB_ENV
             fi
-
-            echo ${{ env.IS_GIT_DIFF }}
   ci:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
+      - name: check git
+        run : |
+          echo ${{ env.IS_GIT_DIFF }}
       - name: Checkout source code.   # 레포지토리 체크아웃
         if: ${{ inputs.NPM_BUILD }}
         uses: actions/checkout@master
