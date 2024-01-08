@@ -7,18 +7,22 @@ on:
       NPM_INSTALL:
         type: boolean
         default: false
+        required: false
         description: NPM_INSTALL
       NPM_BUILD:
         type: boolean
         default: false
+        required: false
         description: NPM_BUILD
       COMPOSER_INSTALL:
         type: boolean
         default: false
+        required: false
         description: COMPOSER_INSTALL
       DB_MIGRATION:
         type: boolean
         default: false
+        required: false
         description: DB_MIGRATION
 jobs:
   ci:
@@ -77,6 +81,6 @@ jobs:
           envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION,BRANCH_NAME
           script: |
             cd ${{ secrets.DEV_MASTER_PATH }}
-            echo "${{ github.event.inputs.NPM_BUILD && github.event_name == 'workflow_dispatch' }}"
+            echo "${{ github.event.inputs.NPM_BUILD }}"
             ../dev-deploy.sh
 
