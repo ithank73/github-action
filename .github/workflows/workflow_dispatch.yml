@@ -44,9 +44,9 @@ jobs:
           script: |
             cd ${{ secrets.DEV_MASTER_PATH }}
             if [ -n "$(git status --porcelain)" ]; then
-            echo "IS_GIT_DIFF=change"
+            echo "IS_GIT_DIFF=change" >> $GITHUB_ENV
             else
-            echo "IS_GIT_DIFF=no change"
+            echo "IS_GIT_DIFF=no change" >> $GITHUB_ENV
             fi
       - name: Use output variable
         run: |
