@@ -23,7 +23,7 @@ on:
 jobs:
   ci:
 #    if: ${{ github.event.inputs.NPM_BUILD && github.event_name == 'workflow_dispatch' }}
-    if: github.event.inputs.NPM_BUILD
+    if: ${{ github.event.inputs.NPM_BUILD }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code.   # 레포지토리 체크아웃
