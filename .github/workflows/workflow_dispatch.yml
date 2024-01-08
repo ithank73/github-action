@@ -1,7 +1,7 @@
 name: DEV DEPLOY
 
 on:
-  push:
+#  push:
   workflow_dispatch:
     inputs:
       NPM_INSTALL:
