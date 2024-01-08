@@ -1,0 +1,67 @@
+name: DEV DEPLOY2
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      NPM_INSTALL:
+        type: boolean
+        default: false
+        description: NPM_INSTALL
+      NPM_BUILD:
+        type: boolean
+        default: false
+        description: NPM_BUILD
+      COMPOSER_INSTALL:
+        type: boolean
+        default: false
+        description: COMPOSER_INSTALL
+      DB_MIGRATION:
+        type: boolean
+        default: false
+        description: DB_MIGRATION
+jobs:
+  workflow_ci:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PUSH_TOKEN }}
+      - name: Set env
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+      - name: Test
+        run: echo $BRANCH_NAME
+      #      - name: Extract branch name
+      #        id: extract_branch
+      #        run: |
+      #          echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+      #          BRANCH=${GITHUB_REF#refs/heads/}
+      #          echo "${BRANCH}"
+      #          echo "${GITHUB_REF#refs/heads/}"
+      - name: Deploy to production
+        uses: appleboy/ssh-action@master
+        env:
+          COMPOSER_INSTALL: ${{ github.event.inputs.COMPOSER_INSTALL }}
+          NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
+          #          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
+          DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
+          BRANCH: ${GITHUB_REF#refs/heads/}
+        #          BRANCH_NAME: ${{ steps.extract_branch.outputs.BRANCH_NAME }}
+        #          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
+        with:
+          host: ${{ secrets.SSH_SERVER }}
+          username: ${{ secrets.SSH_NAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION
+          script: |
+            cd ${{ secrets.MASTER_PATH }}
+            echo "Current branch on server is: ${{ env.BRANCH_NAME }}"
+
+            git checkout ${{ env.BRANCH_NAME }}
+            ../dev-deploy.sh
+
+#            echo ${GITHUB_REF#refs/heads/}
+
