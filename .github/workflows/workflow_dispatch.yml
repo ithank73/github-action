@@ -23,6 +23,8 @@ on:
 jobs:
   check_git_diff:
     runs-on: ubuntu-latest
+    outputs:
+      step1output: ${{ steps.step1.outputs.IS_GIT_DIFF }}
     steps:
       - name: Set env
         run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
@@ -42,10 +44,13 @@ jobs:
           script: |
             cd ${{ secrets.DEV_MASTER_PATH }}
             if [ -n "$(git status --porcelain)" ]; then
-            echo "IS_GIT_DIFF=$(echo change)" >> $GITHUB_ENV
+            echo "IS_GIT_DIFF=change"
             else
-            echo "IS_GIT_DIFF=$(echo no change)" >> $GITHUB_ENV
+            echo "IS_GIT_DIFF=no change"
             fi
+      - name: Use output variable
+        run: |
+          echo "Output from step 1: ${{ needs.deploy.outputs.step1output }}"
   ci:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
