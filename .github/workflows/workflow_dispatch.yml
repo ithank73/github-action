@@ -33,24 +33,24 @@ jobs:
           echo ${{ github.event_name == 'workflow_dispatch' }}
           echo declare -p ${{ github.event.inputs.NPM_BUILD }}
       - name: run NPM_BUILD true
-        if: ${{ github.event.inputs.NPM_BUILD }}
+        if: github.event.inputs.NPM_BUILD
         run: |
           echo ${{ github.event.inputs.NPM_BUILD }}
       - name: Checkout source code.   # 레포지토리 체크아웃
-        if: ${{ github.event.inputs.NPM_BUILD == true }}
+        if: github.event.inputs.NPM_BUILD
         uses: actions/checkout@master
         with:
           token: ${{ secrets.GIT_TOKEN }}
       - name: Set up Node
-        if: ${{ github.event.inputs.NPM_BUILD == true }}
+        if: github.event.inputs.NPM_BUILD
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
       - name: Install Dependencies    # 의존 파일 설치
-        if: ${{ github.event.inputs.NPM_BUILD == true }}
+        if: github.event.inputs.NPM_BUILD
         run: npm install
       - name: Install Dependencies    # 빌드
-        if: ${{ github.event.inputs.NPM_BUILD == true }}
+        if: github.event.inputs.NPM_BUILD
         run: npm run production
 #      - name: Transfer Deploy Script use SCP # 빌드파일 서버로 전송
 #        if: ${{ github.event.inputs.NPM_BUILD == true }}
