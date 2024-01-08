@@ -64,31 +64,31 @@ jobs:
           source: "public"
           target: ${{ secrets.DEV_MASTER_PATH }}/public/dist
           strip_components: 1
-  deploy:
-    needs: ci
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set env
-        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
-      - name: Deploy to production
-        uses: appleboy/ssh-action@master
-        env:
-          COMPOSER_INSTALL: ${{ github.event.inputs.COMPOSER_INSTALL }}
-          NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
-          #          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
-          DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
-          BRANCH_NAME: ${{ env.BRANCH_NAME }}
-        #          BRANCH_NAME: ${{ steps.extract_branch.outputs.BRANCH_NAME }}
-        #          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
-        with:
-          host: ${{ secrets.DEV_HOST }}
-          username: ${{ secrets.DEV_SSH_NAME }}
-          password: ${{ secrets.DEV_SSH_PASSWORD }}
-          port: ${{ secrets.DEV_PORT }}
-          envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION,BRANCH_NAME
-          script: |
-            cd ${{ secrets.DEV_MASTER_PATH }}
-            echo "${{ github.event.inputs.NPM_BUILD }}"
-            ../dev-deploy.sh
-
+#  deploy:
+#    needs: ci
+#    if: github.event_name == 'workflow_dispatch'
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Set env
+#        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+#      - name: Deploy to production
+#        uses: appleboy/ssh-action@master
+#        env:
+#          COMPOSER_INSTALL: ${{ github.event.inputs.COMPOSER_INSTALL }}
+#          NPM_INSTALL:  ${{ github.event.inputs.NPM_INSTALL }}
+#          #          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
+#          DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
+#          BRANCH_NAME: ${{ env.BRANCH_NAME }}
+#        #          BRANCH_NAME: ${{ steps.extract_branch.outputs.BRANCH_NAME }}
+#        #          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
+#        with:
+#          host: ${{ secrets.DEV_HOST }}
+#          username: ${{ secrets.DEV_SSH_NAME }}
+#          password: ${{ secrets.DEV_SSH_PASSWORD }}
+#          port: ${{ secrets.DEV_PORT }}
+#          envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION,BRANCH_NAME
+#          script: |
+#            cd ${{ secrets.DEV_MASTER_PATH }}
+#            echo "${{ github.event.inputs.NPM_BUILD }}"
+#            ../dev-deploy.sh
+#
