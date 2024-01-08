@@ -47,7 +47,7 @@ jobs:
             echo "IS_GIT_DIFF=$(echo no change)" >> $GITHUB_ENV
             fi
 
-            echo $IS_GIT_DIFF
+            echo "$IS_GIT_DIFF"
   ci:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
