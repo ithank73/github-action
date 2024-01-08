@@ -67,7 +67,6 @@ jobs:
           #          NPM_BUILD: ${{ github.event.inputs.NPM_BUILD }}
           DB_MIGRATION: ${{ github.event.inputs.DB_MIGRATION }}
           BRANCH_NAME: ${{ env.BRANCH_NAME }}
-          BRANCH: ${GITHUB_REF#refs/heads/}
         #          BRANCH_NAME: ${{ steps.extract_branch.outputs.BRANCH_NAME }}
         #          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
         with:
@@ -75,7 +74,7 @@ jobs:
           username: ${{ secrets.DEV_SSH_NAME }}
           password: ${{ secrets.DEV_SSH_PASSWORD }}
           port: ${{ secrets.DEV_PORT }}
-          envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION,BRANCH
+          envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION,BRANCH_NAME
           script: |
             cd ${{ secrets.DEV_MASTER_PATH }}
             echo "Current branch on server is: ${{ env.BRANCH_NAME }}"
