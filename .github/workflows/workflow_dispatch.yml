@@ -29,6 +29,12 @@ jobs:
     if: ${{ !!(github.event.inputs.NPM_BUILD) && !!(github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-latest
     steps:
+      - name: run test
+        run: |
+          echo ${{ github.event.inputs.NPM_BUILD }}
+          echo ${{ !!github.event.inputs.NPM_BUILD }}
+          echo ${{ github.event_name == 'workflow_dispatch' }}
+          echo ${{ !!github.event_name == 'workflow_dispatch' }}
       - name: Checkout source code.   # 레포지토리 체크아웃
         if: ${{ github.event.inputs.NPM_BUILD }}
         uses: actions/checkout@master
