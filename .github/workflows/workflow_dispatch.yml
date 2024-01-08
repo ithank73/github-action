@@ -50,7 +50,7 @@ jobs:
           password: ${{ secrets.DEV_SSH_PASSWORD }}
           port: ${{ secrets.DEV_PORT }}
           source: "public"
-          target: ${{ secrets.MASTER_PATH }}/public/dist
+          target: ${{ secrets.DEV_MASTER_PATH }}/public/dist
           strip_components: 1
   deploy:
     needs: ci
@@ -77,7 +77,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           envs: COMPOSER_INSTALL,NPM_INSTALL,NPM_BUILD,DB_MIGRATION
           script: |
-            cd ${{ secrets.MASTER_PATH }}
+            cd ${{ secrets.DEV_MASTER_PATH }}
             echo "Current branch on server is: ${{ env.BRANCH_NAME }}"
 
 #            git checkout ${{ env.BRANCH_NAME }}
