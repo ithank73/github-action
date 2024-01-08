@@ -80,5 +80,4 @@ jobs:
             cd ${{ secrets.DEV_MASTER_PATH }}
             echo "Current branch on server is: ${{ env.BRANCH_NAME }}"
             ../dev-deploy.sh
-#            git checkout ${{ env.BRANCH_NAME }}
 
