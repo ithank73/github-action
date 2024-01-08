@@ -32,7 +32,12 @@ jobs:
       - name: run test
         if: ${{ github.event.inputs.NPM_BUILD }}
         run: |
-          echo ${{ github.event.inputs.NPM_BUILD && (github.event_name == 'workflow_dispatch') || 'false' }}
+#          echo ${{ github.event.inputs.NPM_BUILD && (github.event_name == 'workflow_dispatch') || 'false' }}
+          echo ${{ github.event.inputs.NPM_BUILD }}
+          echo ${{ github.event.inputs.NPM_BUILD == 'true' }}
+          echo ${{ github.event.inputs.NPM_BUILD == true }}
+          echo ${{ github.event.inputs.NPM_BUILD == 1 }}
+          echo ${{ github.event_name == 'workflow_dispatch' }}
       - name: Checkout source code.   # 레포지토리 체크아웃
         if: ${{ github.event.inputs.NPM_BUILD }}
         uses: actions/checkout@master
