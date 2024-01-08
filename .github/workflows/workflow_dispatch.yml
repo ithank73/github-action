@@ -12,17 +12,14 @@ on:
       NPM_BUILD:
         type: boolean
         default: false
-        required: true
         description: NPM_BUILD
       COMPOSER_INSTALL:
         type: boolean
         default: false
-        required: true
         description: COMPOSER_INSTALL
       DB_MIGRATION:
         type: boolean
         default: false
-        required: true
         description: DB_MIGRATION
 jobs:
   ci:
