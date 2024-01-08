@@ -7,26 +7,26 @@ on:
       NPM_INSTALL:
         type: boolean
         default: false
-        required: false
+        required: true
         description: NPM_INSTALL
       NPM_BUILD:
         type: boolean
         default: false
-        required: false
+        required: true
         description: NPM_BUILD
       COMPOSER_INSTALL:
         type: boolean
         default: false
-        required: false
+        required: true
         description: COMPOSER_INSTALL
       DB_MIGRATION:
         type: boolean
         default: false
-        required: false
+        required: true
         description: DB_MIGRATION
 jobs:
   ci:
-    if: ${{ !!github.event.inputs.NPM_BUILD && github.event_name == 'workflow_dispatch' }}
+    if: ${{ !!(github.event.inputs.NPM_BUILD) && !!(github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code.   # 레포지토리 체크아웃
