@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: run test
-        if: ${{ github.event.inputs.NPM_BUILD }}
+        if: ${{ github.event.inputs.NPM_BUILD == true }}
         run: |
           echo ${{ github.event.inputs.NPM_BUILD }}
           echo ${{ github.event.inputs.NPM_BUILD == 'false' }}
