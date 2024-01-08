@@ -26,11 +26,11 @@ on:
         description: DB_MIGRATION
 jobs:
   ci:
-    if: false
-#    ${{ !!(github.event.inputs.NPM_BUILD) && !!(github.event_name == 'workflow_dispatch') }}
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: run test
+        if: ${{ github.event.inputs.NPM_BUILD }}
         run: |
           echo ${{ github.event.inputs.NPM_BUILD }}
           echo ${{ !!github.event.inputs.NPM_BUILD }}
