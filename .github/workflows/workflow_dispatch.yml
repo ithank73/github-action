@@ -29,32 +29,24 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
-      - name: run test
-        if: ${{ github.event.inputs.NPM_BUILD == true }}
-        run: |
-          echo ${{ github.event.inputs.NPM_BUILD }}
-          echo ${{ github.event.inputs.NPM_BUILD == 'false' }}
-          echo ${{ github.event.inputs.NPM_BUILD == false }}
-          echo ${{ github.event.inputs.NPM_BUILD == 0 }}
-          echo ${{ github.event_name == 'workflow_dispatch' }}
       - name: Checkout source code.   # 레포지토리 체크아웃
-        if: ${{ github.event.inputs.NPM_BUILD }}
+        if: ${{ github.event.inputs.NPM_BUILD == true }}
         uses: actions/checkout@master
         with:
           token: ${{ secrets.GIT_TOKEN }}
       - name: Set up Node
-        if: ${{ github.event.inputs.NPM_BUILD }}
+        if: ${{ github.event.inputs.NPM_BUILD == true }}
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
       - name: Install Dependencies    # 의존 파일 설치
-        if: ${{ github.event.inputs.NPM_BUILD }}
+        if: ${{ github.event.inputs.NPM_BUILD == true }}
         run: npm install
       - name: Install Dependencies    # 빌드
-        if: ${{ github.event.inputs.NPM_BUILD }}
+        if: ${{ github.event.inputs.NPM_BUILD == true }}
         run: npm run production
       - name: Transfer Deploy Script use SCP # 빌드파일 서버로 전송
-        if: ${{ github.event.inputs.NPM_BUILD }}
+        if: ${{ github.event.inputs.NPM_BUILD == true }}
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.DEV_HOST }}
